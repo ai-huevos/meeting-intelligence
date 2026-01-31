@@ -5,4 +5,6 @@ __pycache__/
 .DS_Store
 client_secret*.json
 meeting_os/credentials.json
+credentials.json
+token.json
 scripts/auth_google.py

@@ -1,0 +1,17 @@
+---
+id: cb79a1ee-ed84-4d66-b3cf-43f4669a7c73
+---
+sequenceDiagram
+    participant User
+    participant Kapso(Proxy)
+    participant Meta(WhatsApp)
+    participant MeetingOS
+
+    User->>Meta: "Hello" (Starts Session)
+    Meta->>Kapso: Webhook
+    Kapso->>MeetingOS: POST /webhook
+    MeetingOS->>MeetingOS: Log Event
+    
+    MeetingOS->>Kapso: POST /messages (Replier)
+    Kapso->>Meta: Forward Request
+    Meta->>User: "Ack Received"

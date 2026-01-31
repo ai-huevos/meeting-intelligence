@@ -8,3 +8,4 @@ google-auth-oauthlib
 requests
 psycopg2-binary
 uvicorn
+supabase
