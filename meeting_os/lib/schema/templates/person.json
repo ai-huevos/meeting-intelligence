@@ -1,0 +1,27 @@
+{
+    "title": [
+        {
+            "type": "text",
+            "text": {
+                "content": "People"
+            }
+        }
+    ],
+    "properties": {
+        "Name": {
+            "title": {}
+        },
+        "Email": {
+            "email": {}
+        },
+        "LinkedIn": {
+            "url": {}
+        },
+        "Role": {
+            "rich_text": {}
+        },
+        "Vault ID": {
+            "rich_text": {}
+        }
+    }
+}

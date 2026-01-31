@@ -1,0 +1,61 @@
+{
+    "title": [
+        {
+            "type": "text",
+            "text": {
+                "content": "Opportunities"
+            }
+        }
+    ],
+    "properties": {
+        "Name": {
+            "title": {}
+        },
+        "Value": {
+            "number": {
+                "format": "dollar"
+            }
+        },
+        "Stage": {
+            "select": {
+                "options": [
+                    {
+                        "name": "Discovery",
+                        "color": "blue"
+                    },
+                    {
+                        "name": "Demo",
+                        "color": "purple"
+                    },
+                    {
+                        "name": "Proposal",
+                        "color": "yellow"
+                    },
+                    {
+                        "name": "Negotiation",
+                        "color": "orange"
+                    },
+                    {
+                        "name": "Closed Won",
+                        "color": "green"
+                    },
+                    {
+                        "name": "Closed Lost",
+                        "color": "red"
+                    }
+                ]
+            }
+        },
+        "Probability": {
+            "number": {
+                "format": "percent"
+            }
+        },
+        "Close Date": {
+            "date": {}
+        },
+        "Vault ID": {
+            "rich_text": {}
+        }
+    }
+}

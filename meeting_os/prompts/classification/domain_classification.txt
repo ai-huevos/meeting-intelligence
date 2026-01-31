@@ -1,0 +1,12 @@
+Analyze this meeting and classify it into one of the following domains: Sales, Product, Ops, Finance, CS. 
+
+Consider the following hints:
+- **Sales**: Discussions about deals, pricing, demos, discovery, objections, contracts.
+- **Product**: Feature requests, roadmap, user experience, bugs, technical design.
+- **Ops**: Processes, hiring, tooling, logisitics, strategy, planning.
+- **Finance**: Budget, revenue, forecasting, expenses, legal.
+- **CS**: Onboarding, training, support, renewal, account health.
+- **Other**: Check-ins, social, undefined.
+
+Transcript:
+{{transcript}}

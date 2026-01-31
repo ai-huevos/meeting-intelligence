@@ -1,0 +1,148 @@
+{
+  "name": "Operations_Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "meeting-webhook",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=GOOGLE_API_KEY",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "contents",
+              "value": "{ \"parts\": [{ \"text\": \"Extract info...\\n\\nOutput JSON matching this schema:\\n{\n  \\\"type\\\": \\\"object\\\",\n  \\\"properties\\\": {\n    \\\"contract_type\\\": {\n      \\\"type\\\": \\\"string\\\",\n      \\\"enum\\\": [\n        \\\"NDA\\\",\n        \\\"MSA\\\",\n        \\\"SOW\\\",\n        \\\"Renewal\\\",\n        \\\"Other\\\"\n      ]\n    },\n    \\\"counterparty\\\": {\n      \\\"type\\\": \\\"string\\\"\n    },\n    \\\"key_dates\\\": {\n      \\\"type\\\": \\\"array\\\",\n      \\\"items\\\": {\n        \\\"type\\\": \\\"string\\\"\n      }\n    },\n    \\\"financial_terms\\\": {\n      \\\"type\\\": \\\"string\\\"\n    },\n    \\\"action_items\\\": {\n      \\\"type\\\": \\\"array\\\",\n      \\\"items\\\": {\n        \\\"type\\\": \\\"string\\\"\n      }\n    }\n  }\n}\\n\\nTranscript: {$json.body.transcript}\" }] }"
+            },
+            {
+              "name": "generationConfig",
+              "value": "{ \"response_mime_type\": \"application/json\" }"
+            }
+          ]
+        }
+      },
+      "name": "Sales Extraction (Gemini)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        300,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "create",
+        "databaseId": {
+          "__rl": true,
+          "value": "NOTION_OPPORTUNITY_DB_ID",
+          "mode": "id"
+        },
+        "title": {
+          "title": "{{counterparty}} - {{contract_type}}"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Stage|select",
+              "selectValue": "Contracting"
+            },
+            {
+              "key": "Value|number",
+              "numberValue": "{{financial_terms}}"
+            },
+            {
+              "key": "Close Date|date",
+              "date": ""
+            }
+          ]
+        }
+      },
+      "name": "Create Or Update Opportunity",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "issue",
+        "operation": "create",
+        "teamId": "LEGAL_TEAM_ID",
+        "title": "Review {{contract_type}} for {{counterparty}}",
+        "description": "Key Terms: {{financial_terms}}\nDates: {{key_dates}}",
+        "priority": 0
+      },
+      "name": "Create Linear Issue",
+      "type": "n8n-nodes-base.linear",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ],
+      "credentials": {
+        "linearApi": {
+          "id": "LINEAR_CRED_ID",
+          "name": "Linear API account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Sales Extraction (Gemini)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sales Extraction (Gemini)": {
+      "main": [
+        [
+          {
+            "node": "Create Or Update Opportunity",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Linear Issue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "meta": {
+    "instanceId": "1fd2e1f1-bdee-4952-b718-853a4401392c"
+  }
+}

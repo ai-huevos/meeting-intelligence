@@ -1,0 +1,54 @@
+{
+  "title": [
+    {
+      "type": "text",
+      "text": {
+        "content": "Meeting"
+      }
+    }
+  ],
+  "properties": {
+    "Name": {
+      "title": {}
+    },
+    "Date": {
+      "date": {}
+    },
+    "Domain": {
+      "select": {
+        "options": [
+          {"name": "Sales", "color": "orange"},
+          {"name": "Product", "color": "blue"},
+          {"name": "Customer Success", "color": "green"},
+          {"name": "Finance", "color": "yellow"},
+          {"name": "Ops", "color": "red"},
+          {"name": "Other", "color": "gray"}
+        ]
+      }
+    },
+    "Status": {
+      "select": {
+        "options": [
+          {"name": "New", "color": "default"},
+          {"name": "Processed", "color": "blue"},
+          {"name": "Archived", "color": "gray"}
+        ]
+      }
+    },
+    "Summary": {
+      "rich_text": {}
+    },
+    "Action Items": {
+      "rich_text": {}
+    },
+    "Vault ID": {
+      "rich_text": {}
+    },
+    "Fireflies ID": {
+      "rich_text": {}
+    },
+    "Meeting URL": {
+      "url": {}
+    }
+  }
+}

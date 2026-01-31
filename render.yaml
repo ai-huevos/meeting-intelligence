@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: n8n-meeting-os
+    env: docker
+    image: n8nio/n8n:latest
+    plan: starter
+    healthCheckPath: /healthz
+    envVars:
+      - key: N8N_PORT
+        value: 5678
+      - key: DB_TYPE
+        value: postgresdb
+      - key: DB_POSTGRESDB_HOST
+        fromGroup: supabase-creds
+        key: HOST
+      - key: DB_POSTGRESDB_PORT
+        value: 5432
+      - key: DB_POSTGRESDB_DATABASE
+        value: postgres
+      - key: DB_POSTGRESDB_USER
+        fromGroup: supabase-creds
+        key: USER
+      - key: DB_POSTGRESDB_PASSWORD
+        fromGroup: supabase-creds
+        key: PASSWORD
+      - key: N8N_ENCRYPTION_KEY
+        generateValue: true
+      - key: WEBHOOK_URL
+        sync: false
+    disk:
+      name: n8n-data
+      mountPath: /home/node/.n8n
+      sizeGB: 1

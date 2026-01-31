@@ -1,0 +1,29 @@
+Extract detailed sales information from this meeting transcript.
+
+Focus on:
+1. **Deal Information**: Identify the client name, potential deal value (estimate if not explicit), current stage of the deal, and probability of closing.
+2. **Key People**: Who are the decision makers? Are they champions or blockers?
+3. **Next Steps**: Specific follow-up actions with owners if mentioned.
+4. **Objections**: What concerns did the client raise?
+5. **Competitors**: Were any competitors mentioned?
+
+Transcript:
+{{transcript}}
+
+Return the result in valid JSON matching the following schema:
+{
+  "deal_info": {
+    "client_name": "string",
+    "deal_value": number_or_null,
+    "currency": "USD|COP|etc",
+    "probability": 0.0_to_1.0,
+    "stage": "Discovery|Demo|Proposal|Negotiation|Closed Won|Closed Lost",
+    "predicted_close_date": "YYYY-MM-DD or null"
+  },
+  "key_people": [
+    {"name": "string", "role": "string", "sentiment": "Champion|Blocker|Neutral"}
+  ],
+  "next_steps": ["string"],
+  "objections": ["string"],
+  "competitors": ["string"]
+}

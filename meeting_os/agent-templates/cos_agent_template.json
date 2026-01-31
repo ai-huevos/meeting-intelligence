@@ -1,0 +1,106 @@
+{
+    "agent_name": "ChiefOfStaffAgent",
+    "description": "Orchestrates operational workflows, syncing updates to Linear and Slack.",
+    "triggers": [
+        {
+            "trigger_type": "meeting_classification",
+            "criteria": {
+                "domain": [
+                    "Product",
+                    "Engineering",
+                    "Operations"
+                ],
+                "keywords": [
+                    "roadmap",
+                    "sync",
+                    "update",
+                    "planning"
+                ]
+            }
+        }
+    ],
+    "extraction_schema": {
+        "type": "object",
+        "properties": {
+            "action_items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string"
+                        },
+                        "assignee": {
+                            "type": "string"
+                        },
+                        "priority": {
+                            "type": "string",
+                            "enum": [
+                                "High",
+                                "Medium",
+                                "Low"
+                            ]
+                        }
+                    }
+                }
+            },
+            "key_decisions": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "project_updates": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "project_name": {
+                            "type": "string"
+                        },
+                        "status": {
+                            "type": "string"
+                        },
+                        "blockers": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "actions": [
+        {
+            "action_type": "create_linear_issue",
+            "params": {
+                "team_id": "LINEAR_TEAM_ID",
+                "title": "{{action_items.title}}",
+                "description": "Generated from meeting. Assignee: {{action_items.assignee}}",
+                "priority": "{{action_items.priority}}"
+            },
+            "foreach": "action_items"
+        },
+        {
+            "action_type": "send_slack_summary",
+            "params": {
+                "channel": "#team-updates",
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "*Meeting Summary*\nDecisions: {{key_decisions}}"
+                        }
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "*Project Updates*\n{{project_updates}}"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

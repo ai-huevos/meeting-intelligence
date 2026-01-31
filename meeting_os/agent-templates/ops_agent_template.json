@@ -1,0 +1,76 @@
+{
+    "agent_name": "OpsAgent",
+    "domain_name": "Operations",
+    "description": "Handles legal, compliance, and operational agreements.",
+    "triggers": [
+        {
+            "trigger_type": "meeting_classification",
+            "criteria": {
+                "domain": [
+                    "Legal",
+                    "Finance",
+                    "Operations"
+                ],
+                "keywords": [
+                    "contract",
+                    "agreement",
+                    "nda",
+                    "compliance",
+                    "renewal"
+                ]
+            }
+        }
+    ],
+    "extraction_schema": {
+        "type": "object",
+        "properties": {
+            "contract_type": {
+                "type": "string",
+                "enum": [
+                    "NDA",
+                    "MSA",
+                    "SOW",
+                    "Renewal",
+                    "Other"
+                ]
+            },
+            "counterparty": {
+                "type": "string"
+            },
+            "key_dates": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "financial_terms": {
+                "type": "string"
+            },
+            "action_items": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "actions": [
+        {
+            "action_type": "create_linear_issue",
+            "params": {
+                "team_id": "LEGAL_TEAM_ID",
+                "title": "Review {{contract_type}} for {{counterparty}}",
+                "description": "Key Terms: {{financial_terms}}\nDates: {{key_dates}}",
+                "priority": "High"
+            }
+        },
+        {
+            "action_type": "create_or_update_opportunity",
+            "params": {
+                "name": "{{counterparty}} - {{contract_type}}",
+                "stage": "Contracting",
+                "value": "{{financial_terms}}"
+            }
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+Extract all action items from the following transcript. Each action item should have an owner (if identified) and a clear description.
+
+Transcript:
+{{transcript}}
+
+Return as a JSON list of strings.

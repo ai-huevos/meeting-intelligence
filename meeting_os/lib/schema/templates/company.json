@@ -1,0 +1,95 @@
+{
+    "title": [
+        {
+            "type": "text",
+            "text": {
+                "content": "Companies"
+            }
+        }
+    ],
+    "properties": {
+        "Name": {
+            "title": {}
+        },
+        "Domain": {
+            "url": {}
+        },
+        "Industry": {
+            "select": {
+                "options": [
+                    {
+                        "name": "SaaS",
+                        "color": "blue"
+                    },
+                    {
+                        "name": "E-commerce",
+                        "color": "green"
+                    },
+                    {
+                        "name": "Finance",
+                        "color": "yellow"
+                    },
+                    {
+                        "name": "Healthcare",
+                        "color": "red"
+                    },
+                    {
+                        "name": "Other",
+                        "color": "gray"
+                    }
+                ]
+            }
+        },
+        "Size": {
+            "select": {
+                "options": [
+                    {
+                        "name": "1-10",
+                        "color": "gray"
+                    },
+                    {
+                        "name": "11-50",
+                        "color": "default"
+                    },
+                    {
+                        "name": "51-200",
+                        "color": "blue"
+                    },
+                    {
+                        "name": "201-500",
+                        "color": "purple"
+                    },
+                    {
+                        "name": "500+",
+                        "color": "red"
+                    }
+                ]
+            }
+        },
+        "Status": {
+            "select": {
+                "options": [
+                    {
+                        "name": "Prospect",
+                        "color": "blue"
+                    },
+                    {
+                        "name": "Customer",
+                        "color": "green"
+                    },
+                    {
+                        "name": "Churned",
+                        "color": "red"
+                    },
+                    {
+                        "name": "Partner",
+                        "color": "purple"
+                    }
+                ]
+            }
+        },
+        "Vault ID": {
+            "rich_text": {}
+        }
+    }
+}

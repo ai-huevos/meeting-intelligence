@@ -1,0 +1,146 @@
+{
+  "name": "Sales_Agent_Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "meeting-webhook",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=GOOGLE_API_KEY",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "contents",
+              "value": "{ \"parts\": [{ \"text\": \"Extract detailed sales information from this meeting transcript.\n\nFocus on:\n1. **Deal Information**: Identify the client name, potential deal value (estimate if not explicit), current stage of the deal, and probability of closing.\n2. **Key People**: Who are the decision makers? Are they champions or blockers?\n3. **Next Steps**: Specific follow-up actions with owners if mentioned.\n4. **Objections**: What concerns did the client raise?\n5. **Competitors**: Were any competitors mentioned?\n\nTranscript:\n{{transcript}}\n\nReturn the result in valid JSON matching the following schema:\n{\n  \"deal_info\": {\n    \"client_name\": \"string\",\n    \"deal_value\": number_or_null,\n    \"currency\": \"USD|COP|etc\",\n    \"probability\": 0.0_to_1.0,\n    \"stage\": \"Discovery|Demo|Proposal|Negotiation|Closed Won|Closed Lost\",\n    \"predicted_close_date\": \"YYYY-MM-DD or null\"\n  },\n  \"key_people\": [\n    {\"name\": \"string\", \"role\": \"string\", \"sentiment\": \"Champion|Blocker|Neutral\"}\n  ],\n  \"next_steps\": [\"string\"],\n  \"objections\": [\"string\"],\n  \"competitors\": [\"string\"]\n}\n\\n\\nOutput JSON matching this schema:\\n{\n  \\\"deal_info\\\": {\n    \\\"type\\\": \\\"object\\\",\n    \\\"properties\\\": {\n      \\\"client_name\\\": \\\"string\\\",\n      \\\"deal_value\\\": \\\"number\\\",\n      \\\"currency\\\": \\\"string\\\",\n      \\\"probability\\\": \\\"number (0-1)\\\",\n      \\\"stage\\\": \\\"enum[Discovery|Demo|Proposal|Negotiation|Closed Won|Closed Lost]\\\",\n      \\\"predicted_close_date\\\": \\\"YYYY-MM-DD\\\"\n    }\n  },\n  \\\"key_people\\\": [\n    {\n      \\\"name\\\": \\\"string\\\",\n      \\\"role\\\": \\\"string\\\",\n      \\\"sentiment\\\": \\\"enum[Champion|Blocker|Neutral]\\\"\n    }\n  ],\n  \\\"next_steps\\\": [\n    \\\"string\\\"\n  ],\n  \\\"objections\\\": [\n    \\\"string\\\"\n  ],\n  \\\"competitors\\\": [\n    \\\"string\\\"\n  ]\n}\\n\\nTranscript: {$json.body.transcript}\" }] }"
+            },
+            {
+              "name": "generationConfig",
+              "value": "{ \"response_mime_type\": \"application/json\" }"
+            }
+          ]
+        }
+      },
+      "name": "Sales Extraction (Gemini)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        300,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "create",
+        "databaseId": {
+          "__rl": true,
+          "value": "NOTION_OPPORTUNITY_DB_ID",
+          "mode": "id"
+        },
+        "title": {
+          "title": "{{deal_info.client_name}} - {{deal_info.stage}}"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Stage|select",
+              "selectValue": "{{deal_info.stage}}"
+            },
+            {
+              "key": "Value|number",
+              "numberValue": "{{deal_info.deal_value}}"
+            },
+            {
+              "key": "Close Date|date",
+              "date": "{{deal_info.predicted_close_date}}"
+            }
+          ]
+        }
+      },
+      "name": "Create Or Update Opportunity",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "create",
+        "databaseId": {
+          "__rl": true,
+          "value": "NOTION_COMPANY_DB_ID",
+          "mode": "id"
+        },
+        "title": {
+          "title": "{{deal_info.client_name}}"
+        }
+      },
+      "name": "Create Or Update Company",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Sales Extraction (Gemini)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sales Extraction (Gemini)": {
+      "main": [
+        [
+          {
+            "node": "Create Or Update Opportunity",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Or Update Company",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "meta": {
+    "instanceId": "1f95de06-d7c3-4a7b-8fe8-43e901570066"
+  }
+}

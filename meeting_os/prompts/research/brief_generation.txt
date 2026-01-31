@@ -1,0 +1,32 @@
+Research the following company/person and generate a structured brief based on our B2B Enrichment Protocol.
+
+Target: {{target_name}} ({{context}})
+
+Output MUST be a valid JSON object with the following structure (Tier 1 & Tier 2 fields):
+
+{
+  "company_data": {
+    "name": "string",
+    "website": "string",
+    "headquarters": "City, Country",
+    "employees": "number or range",
+    "revenue_estimate": "string",
+    "industry": "string",
+    "company_type": "Startup/SMB/Enterprise",
+    "founded_year": "string"
+  },
+  "contact_data": {
+    "full_name": "string (if person)",
+    "title": "string",
+    "linkedin_url": "string"
+  },
+  "intent_signals": {
+    "tech_stack": ["string"],
+    "recent_funding": "string or null",
+    "hiring_patterns": "string",
+    "product_launches": "string"
+  },
+  "summary": "Brief 2-3 sentence summary of recent news or strategic direction."
+}
+
+If information is not available, use null. prioritizing accuracy over guessing.

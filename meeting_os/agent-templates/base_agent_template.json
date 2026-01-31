@@ -1,0 +1,50 @@
+{
+    "domain_name": "Abstract_Base",
+    "version": "1.0.0",
+    "description": "Base template for all domain agents. Inherit and override.",
+    "trigger_conditions": [
+        {
+            "field": "domain",
+            "operator": "equals",
+            "value": "{{domain_name}}"
+        }
+    ],
+    "classification_prompts": {
+        "domain_classification": "Analyze this meeting and classify it into one of the following domains: Sales, Product, Ops, Finance, CS. Consider the participants, agenda, and key topics.",
+        "sentiment_analysis": "Analyze the overall sentiment of the meeting: Positive, Neutral, Negative, Mixed."
+    },
+    "extraction_schema": {
+        "summary": "string",
+        "action_items": [
+            "string"
+        ],
+        "decisions": [
+            "string"
+        ],
+        "entities": [
+            {
+                "name": "string",
+                "type": "enum[Person|Company]",
+                "context": "string"
+            }
+        ]
+    },
+    "action_generators": {
+        "default_actions": [
+            {
+                "action_type": "update_meeting_record",
+                "description": "Update Notion meeting record with summary and actions",
+                "priority": "high"
+            }
+        ]
+    },
+    "notification_templates": {
+        "slack_default": "📝 **{{meeting_title}}**\nSummary: {{summary}}\n\n✅ Actions:\n{{#action_items}}• {{.}}\n{{/action_items}}"
+    },
+    "feedback_handlers": {
+        "general_feedback": {
+            "action": "log_feedback",
+            "update_model": false
+        }
+    }
+}

@@ -1,0 +1,63 @@
+{
+    "domain_name": "Sales",
+    "version": "1.0.0",
+    "description": "Agent for processing sales calls, extracting opportunities, and updating CRM.",
+    "trigger_conditions": [
+        {
+            "field": "domain",
+            "operator": "equals",
+            "value": "Sales"
+        }
+    ],
+    "extraction_schema": {
+        "deal_info": {
+            "type": "object",
+            "properties": {
+                "client_name": "string",
+                "deal_value": "number",
+                "currency": "string",
+                "probability": "number (0-1)",
+                "stage": "enum[Discovery|Demo|Proposal|Negotiation|Closed Won|Closed Lost]",
+                "predicted_close_date": "YYYY-MM-DD"
+            }
+        },
+        "key_people": [
+            {
+                "name": "string",
+                "role": "string",
+                "sentiment": "enum[Champion|Blocker|Neutral]"
+            }
+        ],
+        "next_steps": [
+            "string"
+        ],
+        "objections": [
+            "string"
+        ],
+        "competitors": [
+            "string"
+        ]
+    },
+    "action_generators": {
+        "crm_actions": [
+            {
+                "action_type": "create_or_update_opportunity",
+                "params": {
+                    "name": "{{deal_info.client_name}} - {{deal_info.stage}}",
+                    "value": "{{deal_info.deal_value}}",
+                    "stage": "{{deal_info.stage}}",
+                    "close_date": "{{deal_info.predicted_close_date}}"
+                }
+            },
+            {
+                "action_type": "create_or_update_company",
+                "params": {
+                    "name": "{{deal_info.client_name}}"
+                }
+            }
+        ]
+    },
+    "notification_templates": {
+        "slack_sales_alert": "💰 **New Deal Opportunity**\nClient: {{deal_info.client_name}}\nValue: ${{deal_info.deal_value}}\nStage: {{deal_info.stage}}\n\n👉 <{{opportunity_url}}|View in Notion>"
+    }
+}
