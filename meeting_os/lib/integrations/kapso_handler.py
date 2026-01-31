@@ -11,7 +11,8 @@ class KapsoClient:
     def __init__(self, api_key=None, phone_id=None):
         self.api_key = api_key or os.getenv("KAPSO_API_KEY")
         self.phone_id = phone_id or os.getenv("WHATSAPP_PHONE_ID")
-        self.base_url = "https://api.kapso.ai/meta/whatsapp"
+        # Updated URL based on user input
+        self.base_url = "https://api.kapso.ai/meta/whatsapp/v24.0"
         
         if not self.api_key:
             print("⚠️ KAPSO_API_KEY not found in env.")
@@ -24,35 +25,41 @@ class KapsoClient:
             print("❌ WHATSAPP_PHONE_ID not found. Cannot send message.")
             return False
 
+        # Endpoint construction: /<phone_id>/messages
         url = f"{self.base_url}/{self.phone_id}/messages"
         
+        # Kapso specific headers (X-API-Key)
         headers = {
-            "Authorization": f"Bearer {self.api_key}", # Standard Bearer for proxy
+            "X-API-Key": self.api_key, 
             "Content-Type": "application/json"
         }
         
+        # Clean phone number (remove + if present, as requested)
+        clean_phone = phone_number.replace("+", "") if phone_number else ""
+
         # Standard Meta WhatsApp Payload
         payload = {
             "messaging_product": "whatsapp",
             "recipient_type": "individual",
-            "to": phone_number,
+            "to": clean_phone,
             "type": "text",
             "text": {
-                "preview_url": False,
                 "body": text
             }
         }
         
         try:
-            print(f"📱 [Kapso] Sending to {phone_number} via {url}...")
+            print(f"📱 [Kapso] Sending to {clean_phone} via {url}...")
             response = requests.post(url, headers=headers, json=payload)
+            
+            if not response.ok:
+                print(f"❌ Error Response: {response.text}")
+                
             response.raise_for_status()
             print(f"✅ Message sent! ID: {response.json().get('messages', [{}])[0].get('id')}")
             return True
         except Exception as e:
             print(f"❌ Failed to send WhatsApp: {e}")
-            if hasattr(e, 'response') and e.response:
-                print(f"   Response: {e.response.text}")
             return False
 
     def handle_incoming_message(self, payload):
