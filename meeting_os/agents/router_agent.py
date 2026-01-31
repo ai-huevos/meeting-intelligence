@@ -114,20 +114,18 @@ class RouterAgent:
             # Determine channel based on primary route
             channel = "#sales-leads" if "Sales" in routes else "#general"
             
-            # Send (Assuming slack_client supports generic payload)
-            # If self.slack.send_message only takes text, we might need a richer method,
-            # but usually Slack clients allow kwarg passthrough.
-            # Here we follow the existing pattern but assume we can pass attachments.
-            # self.slack.send_message(text="New Event", channel=channel, blocks=payload.get("blocks"), attachments=payload.get("attachments"))
+            # Send using real client
+            self.slack.send_message(
+                text=f"New Context: {uco.context_layer.summary}", # Fallback text for notifications
+                channel=channel,
+                attachments=payload.get("attachments"),
+                blocks=payload.get("blocks"), # Just in case we switch to blocks later
+                username=payload.get("username"),
+                icon_emoji=payload.get("icon_emoji")
+            )
             
-            # For now, let's just print the JSON as proof of 'Soul'
-            print("🎨 [UI] Generated Bio-chromatic Payload:")
-            print(json.dumps(payload, indent=2))
-            
-            # Fallback to text for safety until SlackClient is fully verified
-            domain_emoji = "💰" if "Sales" in routes else "🛠️"
-            text_fallback = f"{domain_emoji} New Context: {uco.context_layer.summary}"
-            self.slack.send_message(text_fallback, channel=channel)
+            print(f"🎨 [UI] Sent Bio-chromatic Payload to {channel}")
+            # print(json.dumps(payload, indent=2))
             
         except Exception as e:
             logger.error(f"Failed to render UI: {e}")

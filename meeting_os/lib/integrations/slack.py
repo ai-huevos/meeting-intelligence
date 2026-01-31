@@ -12,12 +12,14 @@ class SlackClient:
         # if not self.token:
         #    logger.warning("SLACK_BOT_TOKEN not set. Slack notifications will be simulated.")
 
-    def send_message(self, text, blocks=None, channel=None):
+    def send_message(self, text, blocks=None, attachments=None, channel=None, username=None, icon_emoji=None):
         """Send message to Slack."""
         channel = channel or self.default_channel
         
         if not self.token:
             print(f"[SLACK SIMULATION] Channel: {channel}\nMessage: {text}")
+            if attachments:
+                print(f"[ATTACHMENTS] {json.dumps(attachments, indent=2)}")
             return {"ok": True, "ts": "1234.5678"}
 
         url = "https://slack.com/api/chat.postMessage"
@@ -25,16 +27,28 @@ class SlackClient:
             "Authorization": f"Bearer {self.token}",
             "Content-Type": "application/json"
         }
+        # Build base payload
         payload = {
             "channel": channel,
             "text": text
         }
+        
+        # Add rich UI elements
         if blocks:
             payload["blocks"] = blocks
+        if attachments:
+            payload["attachments"] = attachments
+        if username:
+            payload["username"] = username
+        if icon_emoji:
+            payload["icon_emoji"] = icon_emoji
             
         try:
             response = requests.post(url, headers=headers, json=payload)
-            return response.json()
+            data = response.json()
+            if not data.get("ok"):
+                logger.error(f"Slack API Error: {data.get('error')}")
+            return data
         except Exception as e:
             logger.error(f"Failed to send Slack message: {e}")
             return {"ok": False, "error": str(e)}
