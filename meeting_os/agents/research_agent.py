@@ -1,7 +1,7 @@
 import json
 import uuid
-from meeting_os.lib.agents.base_agent import BaseAgent
-from meeting_os.lib.integrations.perplexity import PerplexityClient
+from meeting_os.core.base_agent import BaseAgent
+from meeting_os.services.perplexity import PerplexityClient
 
 class ResearchAgent(BaseAgent):
     def __init__(self, event_log=None):

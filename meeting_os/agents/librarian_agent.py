@@ -1,7 +1,7 @@
 import json
 import uuid
 import os
-from meeting_os.lib.agents.base_agent import BaseAgent
+from meeting_os.core.base_agent import BaseAgent
 
 class LibrarianAgent(BaseAgent):
     def __init__(self, event_log=None):
@@ -32,8 +32,33 @@ class LibrarianAgent(BaseAgent):
         base_prompt = self.load_prompt("domain_classification.txt")
         filled_prompt = base_prompt.replace("{{transcript}}", clean_transcript)
         
+        return self._execute_classification(filled_prompt, workflow_id)
+
+    def search_meetings(self, keyword: str):
+        """Search meetings by keyword via Supabase."""
+        from meeting_os.services.database import db
+        
+        if not db.client:
+            return [{"id": "mock-1", "summary": f"Mock result for {keyword} (DB Unavailable)"}]
+            
+        try:
+            # Search UCOs where summary contains keyword
+            # Postgrest syntax for JSON filtering is tricky, falling back to simple mock if fail
+            # But let's try searching a text column if exists, or just list recent
+            response = db.table("universal_context_objects").select("*").execute()
+            # Client-side filter for safety/simplicity in this demo
+            matches = [
+                r for r in response.data 
+                if keyword.lower() in str(r.get("context_layer")).lower()
+            ]
+            return matches
+        except Exception as e:
+            return [{"error": str(e)}]
+
+    def _execute_classification(self, prompt, workflow_id):
+        # Refactored extraction logic
         # 3. Apply Securirty Wrapper
-        final_prompt = self.prompt_wrapper.wrap_librarian_prompt(filled_prompt)
+        final_prompt = self.prompt_wrapper.wrap_librarian_prompt(prompt)
         
         # 4. Call LLM
         print(f"[LIBRARIAN] Calling LLM with prompt length: {len(final_prompt)}")
@@ -75,7 +100,7 @@ class LibrarianAgent(BaseAgent):
             return {"status": "error", "error": str(e)}
 
 if __name__ == "__main__":
-    from meeting_os.lib.tenancy.vault_context import TenantContext
+    from meeting_os.core.tenancy.vault_context import TenantContext
     TenantContext.set_vault("test_vault", "user_1")
     
     librarian = LibrarianAgent()

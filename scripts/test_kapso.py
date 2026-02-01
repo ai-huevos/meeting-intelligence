@@ -1,4 +1,4 @@
-from meeting_os.lib.integrations.kapso_handler import KapsoClient
+from meeting_os.services.kapso_handler import KapsoClient
 import os
 from dotenv import load_dotenv
 

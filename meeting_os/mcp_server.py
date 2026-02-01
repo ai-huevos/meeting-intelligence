@@ -2,24 +2,51 @@ import os
 import sys
 
 # Define Tools Logic (Decoupled from SDK)
+# Ensure root path is in sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from meeting_os.agents.librarian_agent import LibrarianAgent
+from meeting_os.agents.router_agent import RouterAgent
+from meeting_os.core.uco import UniversalContextObject, EventSource, RoutingFlags, ContextLayer
+
+# Initialize Agents
+librarian = LibrarianAgent()
+router_agent = RouterAgent()
+
 def search_transcripts_logic(keyword: str):
     """
     Search for recent meetings containing a specific keyword.
     """
-    # Mock return for logic verification
-    return f"Found 2 meetings with '{keyword}': \n1. Financials (2025-01-31)\n2. Sync (2025-01-20)"
+    results = librarian.search_meetings(keyword)
+    return f"Found matches: {results}"
 
 def get_transcript_logic(meeting_id: str):
     """
     Retrieve the full transcript text.
     """
-    return f"Transcript for {meeting_id}: [Full text...]"
+    # Placeholder: In V3 this will fetch from Vector DB or Supabase Storage
+    return f"Transcript retrieval for {meeting_id} is pending storage implementation."
 
 def trigger_workflow_logic(agent_name: str, context: str):
     """
-    Trigger a workflow via Webhook.
+    Trigger a workflow via Router.
     """
-    return f"🚀 Triggered {agent_name} agent with context: '{context}'."
+    # Create a UCO
+    try:
+        flags = RoutingFlags(
+            sales=(agent_name.lower() == "sales"), 
+            ops=(agent_name.lower() == "ops"),
+            product=(agent_name.lower() == "product")
+        )
+        uco = UniversalContextObject(
+            source=EventSource.MANUAL,
+            routing_flags=flags,
+            context_layer=ContextLayer(summary=context, sentiment="Neutral")
+        )
+        res = router_agent.ingest_event(uco)
+        return f"🚀 Triggered {agent_name} agent. Event ID: {res.get('event_id')}"
+    except Exception as e:
+        return f"Failed to trigger workflow: {str(e)}"
 
 # SDK Binding (Only runs if fastmcp is installed - i.e. in Prod)
 try:
