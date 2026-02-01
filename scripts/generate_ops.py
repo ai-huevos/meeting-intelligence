@@ -1,6 +1,6 @@
 import json
 import os
-from meeting_os.lib.workflow.generator import WorkflowGenerator
+from meeting_os.workflows.generator import WorkflowGenerator
 
 def generate_ops():
     print("Generating Ops (Legal/Finance) Workflow...")

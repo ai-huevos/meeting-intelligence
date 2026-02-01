@@ -2,7 +2,8 @@ notion-client>=2.0.0
 python-dotenv
 pydantic
 pytest
-google-generativeai
+fastapi
+google-genai
 google-api-python-client
 google-auth-oauthlib
 requests

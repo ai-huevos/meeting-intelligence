@@ -4,7 +4,7 @@ import os
 # Add parent directory to path to import meeting_os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from meeting_os.lib.db import db
+from meeting_os.services.database import db
 
 def apply_schema():
     print("🚀 Applying Schema to Supabase...")

@@ -1,6 +1,6 @@
-from meeting_os.lib.integrations.google_calendar import GoogleCalendarClient
-from meeting_os.lib.enrichment.enrichment_router import EnrichmentRouter
-from meeting_os.lib.integrations.fireflies import FirefliesClient
+from meeting_os.services.google_calendar import GoogleCalendarClient
+from meeting_os.services.enrichment.enrichment_router import EnrichmentRouter
+from meeting_os.services.fireflies import FirefliesClient
 import os
 
 def run_full_e2e_real():

@@ -1,8 +1,8 @@
-from meeting_os.lib.observability.event_log import EventLog
-from meeting_os.lib.integrations.slack import SlackClient
-from meeting_os.lib.integrations.notion import NotionHandler
-from meeting_os.lib.schema.uco import UniversalContextObject, RoutingFlags, EventSource
-from meeting_os.lib.db import db
+from meeting_os.core.event_log import EventLog
+from meeting_os.services.slack import SlackClient
+from meeting_os.services.notion import NotionHandler
+from meeting_os.core.uco import UniversalContextObject, RoutingFlags, EventSource
+from meeting_os.services.database import db
 import json
 import logging
 
@@ -106,7 +106,7 @@ class RouterAgent:
     def _notify_slack(self, uco: UniversalContextObject, routes: list):
         """Sends a Bio-chromatic Block Kit message"""
         try:
-            from meeting_os.lib.ui.slack_blocks import BioChromaticUI
+            from meeting_os.core.ui.slack_blocks import BioChromaticUI
             
             # Generate Neon Card
             payload = BioChromaticUI.render_ingestion_card(uco, routes)
@@ -133,7 +133,7 @@ class RouterAgent:
 
 if __name__ == "__main__":
     # Test with a Mock UCO
-    from meeting_os.lib.schema.uco import ContextLayer
+    from meeting_os.core.uco import ContextLayer
     
     router = RouterAgent()
     

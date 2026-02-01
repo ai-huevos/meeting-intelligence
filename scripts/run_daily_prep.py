@@ -5,8 +5,8 @@ import json
 # Fix path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from meeting_os.lib.integrations.google_calendar import GoogleCalendarClient
-from meeting_os.lib.enrichment.enrichment_router import EnrichmentRouter
+from meeting_os.services.google_calendar import GoogleCalendarClient
+from meeting_os.services.enrichment.enrichment_router import EnrichmentRouter
 
 def run_daily_prep():
     print("🚀 Starting Daily Pre-Meeting Prep...")

@@ -1,6 +1,6 @@
 import json
 import uuid
-from meeting_os.lib.agents.base_agent import BaseAgent
+from meeting_os.core.base_agent import BaseAgent
 
 class SalesAgent(BaseAgent):
     def __init__(self, event_log=None):
@@ -63,7 +63,7 @@ class SalesAgent(BaseAgent):
             return {"status": "error", "error": str(e)}
 
 if __name__ == "__main__":
-    from meeting_os.lib.tenancy.vault_context import TenantContext
+    from meeting_os.core.tenancy.vault_context import TenantContext
     TenantContext.set_vault("test_vault", "test_user")
     
     # Test script would go here or separate file

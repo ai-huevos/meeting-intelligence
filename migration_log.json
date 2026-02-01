@@ -1,0 +1,212 @@
+[
+  {
+    "action": "mkdir",
+    "source": "/Users/tatooine/Documents/Development/tbd/docs/architecture/diagrams",
+    "destination": null,
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.260886"
+  },
+  {
+    "action": "mkdir",
+    "source": "/Users/tatooine/Documents/Development/tbd/docs/deployment",
+    "destination": null,
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.260944"
+  },
+  {
+    "action": "mkdir",
+    "source": "/Users/tatooine/Documents/Development/tbd/docs/guides",
+    "destination": null,
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.260980"
+  },
+  {
+    "action": "mkdir",
+    "source": "/Users/tatooine/Documents/Development/tbd/docs/security",
+    "destination": null,
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.261022"
+  },
+  {
+    "action": "mkdir",
+    "source": "/Users/tatooine/Documents/Development/tbd/docs/product",
+    "destination": null,
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.261059"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/DESIGN.md",
+    "destination": "/Users/tatooine/Documents/Development/tbd/docs/architecture/DESIGN.md",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.261918"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/Information flowchart  .mmd",
+    "destination": "/Users/tatooine/Documents/Development/tbd/docs/architecture/diagrams/information_flowchart.mmd",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.262019"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/DEPLOYMENT.md",
+    "destination": "/Users/tatooine/Documents/Development/tbd/docs/deployment/DEPLOYMENT.md",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.262215"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/DEPLOYMENT_CONCEPTS.md",
+    "destination": "/Users/tatooine/Documents/Development/tbd/docs/deployment/DEPLOYMENT_CONCEPTS.md",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.262295"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/GCLOUD_DEPLOY.md",
+    "destination": "/Users/tatooine/Documents/Development/tbd/docs/deployment/GCLOUD_DEPLOY.md",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.262375"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/MCP_SETUP.md",
+    "destination": "/Users/tatooine/Documents/Development/tbd/docs/guides/MCP_SETUP.md",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.262442"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/SKILL.MD",
+    "destination": "/Users/tatooine/Documents/Development/tbd/docs/guides/SKILL.md",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.262543"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/SECURITY.md",
+    "destination": "/Users/tatooine/Documents/Development/tbd/docs/security/SECURITY.md",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.262635"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/meeting-os-cost-growth.md",
+    "destination": "/Users/tatooine/Documents/Development/tbd/docs/product/meeting-os-cost-growth.md",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.262857"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/meeting-os-observability.md",
+    "destination": "/Users/tatooine/Documents/Development/tbd/docs/product/meeting-os-observability.md",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.262937"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/meeting-os-security.md",
+    "destination": "/Users/tatooine/Documents/Development/tbd/docs/product/meeting-os-security.md",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.263109"
+  },
+  {
+    "action": "mkdir",
+    "source": "/Users/tatooine/Documents/Development/tbd/.secrets",
+    "destination": null,
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.263159"
+  },
+  {
+    "action": "create",
+    "source": "/Users/tatooine/Documents/Development/tbd/.secrets/.gitignore",
+    "destination": null,
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.263247"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/credentials.json",
+    "destination": "/Users/tatooine/Documents/Development/tbd/.secrets/credentials.json",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.263625"
+  },
+  {
+    "action": "update_refs",
+    "source": "/Users/tatooine/Documents/Development/tbd/meeting_os/services/google_calendar.py",
+    "destination": "'credentials.json' \u2192 '.secrets/credentials.json'",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.264156"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/token.json",
+    "destination": "/Users/tatooine/Documents/Development/tbd/.secrets/token.json",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.264349"
+  },
+  {
+    "action": "update_refs",
+    "source": "/Users/tatooine/Documents/Development/tbd/meeting_os/services/google_calendar.py",
+    "destination": "'token.json' \u2192 '.secrets/token.json'",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.264515"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/client_secret_161599347588-be1moeq82k4750lko3vgp76r62pltvuh.apps.googleusercontent.com.json",
+    "destination": "/Users/tatooine/Documents/Development/tbd/.secrets/client_secret_161599347588-be1moeq82k4750lko3vgp76r62pltvuh.apps.googleusercontent.com.json",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.264703"
+  },
+  {
+    "action": "mkdir",
+    "source": "/Users/tatooine/Documents/Development/tbd/deployment/docker",
+    "destination": null,
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.264889"
+  },
+  {
+    "action": "mkdir",
+    "source": "/Users/tatooine/Documents/Development/tbd/deployment/render",
+    "destination": null,
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.264936"
+  },
+  {
+    "action": "mkdir",
+    "source": "/Users/tatooine/Documents/Development/tbd/deployment/gcloud",
+    "destination": null,
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.264994"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/Dockerfile",
+    "destination": "/Users/tatooine/Documents/Development/tbd/deployment/docker/Dockerfile",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.265330"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/.dockerignore",
+    "destination": "/Users/tatooine/Documents/Development/tbd/deployment/docker/.dockerignore",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.265547"
+  },
+  {
+    "action": "move",
+    "source": "/Users/tatooine/Documents/Development/tbd/render.yaml",
+    "destination": "/Users/tatooine/Documents/Development/tbd/deployment/render/render.yaml",
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.265732"
+  },
+  {
+    "action": "create",
+    "source": "README.md",
+    "destination": null,
+    "status": "success",
+    "timestamp": "2026-02-01T09:02:51.265847"
+  }
+]
