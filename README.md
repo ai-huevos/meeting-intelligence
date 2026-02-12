@@ -135,7 +135,6 @@ gcloud run deploy meeting-os \
 See [docs/deployment/GCLOUD_DEPLOY.md](docs/deployment/GCLOUD_DEPLOY.md) for details.
 
 ## 📊 Monitoring
-
 - **Event Logs**: All actions logged to Supabase `event_logs` table
 - **Slack Notifications**: Real-time updates via bio-chromatic cards
 - **Notion Dashboard**: CRM updates visible in workspace
